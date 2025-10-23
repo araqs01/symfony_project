@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .add-author {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-author:hover {
+            background-color: #45a049;
+        }
+
+        ul.authors-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.authors-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        ul.authors-list li:hover {
+            background-color: #e0e0e0;
+        }
+
+        .author-info {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .author-actions a {
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .author-actions a.edit {
+            background-color: #2196F3;
+        }
+
+        .author-actions a.edit:hover {
+            background-color: #1976D2;
+        }
+
+        .author-actions a.delete {
+            background-color: #f44336;
+        }
+
+        .author-actions a.delete:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Authors</h1>
+    <a class="add-author" href="{{ path('admin_author_create') }}">Add Author</a>
+    <ul class="authors-list">
+        {% for row in authors %}
+            {% set author = row[0] %}
+            <li>
+                <span class="author-info">{{ author.name }} ({{ row.book_count }} books)</span>
+                <span class="author-actions">
+                        <a class="edit" href="{{ path('admin_author_edit', {'id': author.id}) }}">Edit</a>
+                        <a class="delete" href="{{ path('admin_author_delete', {'id': author.id}) }}">Delete</a>
+                    </span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
