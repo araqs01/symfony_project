@@ -10,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateBooksCommand extends Command
 {
-    // Можно оставить defaultName для Symfony 5.3+
     protected static $defaultName = 'app:generate-books';
     private $em;
     private $batchSize = 1000;
@@ -21,7 +20,6 @@ class GenerateBooksCommand extends Command
         parent::__construct();
     }
 
-    // Обязательно для старых версий Symfony
     protected function configure(): void
     {
         $this
@@ -42,7 +40,7 @@ class GenerateBooksCommand extends Command
             $author = $this->em->getRepository(Author::class)->findOneBy(['name'=>$authorName]);
 
             $i = 0;
-            foreach (range(1, 100000) as $num) {
+            foreach (range(1, 50) as $num) {
                 $book = new Book("Book $num by " . $author->getName(), $author);
                 $this->em->persist($book);
                 $i++;
@@ -55,7 +53,6 @@ class GenerateBooksCommand extends Command
                 }
             }
 
-            // flush remaining
             $this->em->flush();
             $this->em->clear();
             $output->writeln("Finished author: $authorName");

@@ -27,4 +27,4 @@ ENV PORT 10000
 EXPOSE $PORT
 
 # CMD: очистка кеша без подключения к БД + запуск встроенного сервера
-CMD ["sh", "-c", "php bin/console doctrine:migrations:migrate --no-interaction && php -S 0.0.0.0:$PORT -t public"]
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
