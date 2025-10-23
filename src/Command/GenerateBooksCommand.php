@@ -40,7 +40,7 @@ class GenerateBooksCommand extends Command
             $author = $this->em->getRepository(Author::class)->findOneBy(['name'=>$authorName]);
 
             $i = 0;
-            foreach (range(1, 50) as $num) {
+            foreach (range(1, 100000) as $num) {
                 $book = new Book("Book $num by " . $author->getName(), $author);
                 $this->em->persist($book);
                 $i++;
