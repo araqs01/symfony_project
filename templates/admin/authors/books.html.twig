@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ author.name }}'s Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        ul.books-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.books-list li {
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        a.back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a.back:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Books by {{ author.name }}</h1>
+
+    {% if books is not empty %}
+        <ul class="books-list">
+            {% for book in books %}
+                <li>{{ book.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books found for this author.</p>
+    {% endif %}
+
+    <a class="back" href="{{ path('admin_author_index') }}">← Back to Authors</a>
+
+    {% if totalPages > 1 %}
+        <div class="pagination">
+            {% if page > 1 %}
+                <a class="page-btn prev" href="{{ path('admin_author_books', {'id': author.id, 'page': page - 1}) }}">« Prev</a>
+            {% endif %}
+
+            {% for i in 1..totalPages %}
+                {% if i == page %}
+                    <span class="page-btn active">{{ i }}</span>
+                {% elseif i >= page - 2 and i <= page + 2 or i == 1 or i == totalPages %}
+                    <a class="page-btn" href="{{ path('admin_author_books', {'id': author.id, 'page': i}) }}">{{ i }}</a>
+                {% elseif i == page - 3 or i == page + 3 %}
+                    <span class="dots">…</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if page < totalPages %}
+                <a class="page-btn next" href="{{ path('admin_author_books', {'id': author.id, 'page': page + 1}) }}">Next »</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</div>
+</body>
+</html>

@@ -75,4 +75,41 @@ class AuthorController extends AbstractController
         return $this->redirectToRoute('admin_author_index');
     }
 
+    #[Route('/{id}/books', name: 'admin_author_books')]
+    public function showBooks(
+        Author $author,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response {
+        $page = max(1, (int) $request->query->get('page', 1));
+        $limit = 100;
+
+        $qb = $em->createQueryBuilder()
+            ->select('b')
+            ->from(\App\Entity\Book::class, 'b')
+            ->where('b.author = :author')
+            ->setParameter('author', $author)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $books = $qb->getQuery()->getResult();
+
+        $totalBooks = $em->createQueryBuilder()
+            ->select('COUNT(b.id)')
+            ->from(\App\Entity\Book::class, 'b')
+            ->where('b.author = :author')
+            ->setParameter('author', $author)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $totalPages = ceil($totalBooks / $limit);
+
+        return $this->render('admin/authors/books.html.twig', [
+            'author' => $author,
+            'books' => $books,
+            'page' => $page,
+            'totalPages' => $totalPages,
+        ]);
+    }
+
 }

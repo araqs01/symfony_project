@@ -90,6 +90,13 @@
         .author-actions a.delete:hover {
             background-color: #d32f2f;
         }
+        .author-actions a.show {
+            background-color: #9C27B0;
+        }
+
+        .author-actions a.show:hover {
+            background-color: #7B1FA2;
+        }
     </style>
 </head>
 <body>
@@ -102,6 +109,7 @@
             <li>
                 <span class="author-info">{{ author.name }} ({{ row.book_count }} books)</span>
                 <span class="author-actions">
+                        <a class="show" href="{{ path('admin_author_books', {'id': author.id}) }}">Show Books</a>
                         <a class="edit" href="{{ path('admin_author_edit', {'id': author.id}) }}">Edit</a>
                         <a class="delete" href="{{ path('admin_author_delete', {'id': author.id}) }}">Delete</a>
                     </span>
