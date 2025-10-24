@@ -77,10 +77,13 @@ class AuthorController extends AbstractController
 
     #[Route('/{id}/books', name: 'admin_author_books')]
     public function showBooks(
-        Author $author,
+        ?Author $author,
         EntityManagerInterface $em,
         Request $request
     ): Response {
+        if (!$author) {
+            return $this->redirectToRoute('admin_author_index');
+        }
         $page = max(1, (int) $request->query->get('page', 1));
         $limit = 100;
 
