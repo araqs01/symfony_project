@@ -51,6 +51,56 @@
         a.back:hover {
             background-color: #1976D2;
         }
+
+        ul.books-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.books-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        ul.books-list li:hover {
+            background-color: #e0e0e0;
+        }
+
+        .book-info {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .book-actions a {
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .book-actions a.edit {
+            background-color: #2196F3;
+        }
+
+        .book-actions a.edit:hover {
+            background-color: #1976D2;
+        }
+
+        .book-actions a.delete {
+            background-color: #f44336;
+        }
+
+        .book-actions a.delete:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +110,13 @@
     {% if books is not empty %}
         <ul class="books-list">
             {% for book in books %}
-                <li>{{ book.title }}</li>
+                <li>
+                    <span class="book-info">{{ book.title }} by {{ book.author.name }}</span>
+                    <span class="book-actions">
+                        <a class="edit" href="{{ path('admin_book_edit', {'id': book.id}) }}">Edit</a>
+                        <a class="delete" href="{{ path('admin_book_delete', {'id': book.id}) }}">Delete</a>
+                    </span>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
